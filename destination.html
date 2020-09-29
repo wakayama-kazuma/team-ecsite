@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+
+<link href="/css/reset.css" th:href="@{/css/reset.css}" rel="stylesheet" />
+<link href="/css/style.css" th:href="@{/css/style.css}" rel="stylesheet" />
+
+<title>宛先登録|grapes</title>
+</head>
+<body>
+
+<header th:insert="fragments/page_header::pageHeader"></header>
+
+<main>
+
+	<div class="container">
+		<h2>宛先登録</h2>
+		
+<table id="register" class="user">
+		<tr>
+		<th>宛先氏名</th>
+		<td>
+			<input type="text" name="familyName" th:value="${user.familyName}" placeholder="宛先 姓" maxlength="16" />
+			<input type="text" name="firstName" th:value="${user.firstName}" placeholder="宛先 名" maxlength="16" />
+		</td>
+		</tr>
+		<tr>
+		<th>住所</th>
+		<td>
+			<input type="text" name="address" placeholder="住所" maxlength="50" />
+		</td>
+		</tr>
+		<tr>
+		<th>電話番号<br /><span class="note">（半角数字 10～13文字）</span></th>
+		<td>
+			<input type="text" name="telNumber" placeholder="0311112222" maxlength="13" />
+		</td>
+		</tr>
+		<tr>
+		<th class="buttonArea"></th>
+		<th class="buttonArea">
+			<button id="confirm">確認</button>
+			<button id="resetButton">クリア</button>
+		</th>
+		</tr>
+	</table>
+	
+	</div>
+	
+	<!-- Modal Dialog (ユーザー入力エラー) -->
+	<div th:insert="fragments/dialog_input_destination_error::dialogInputDestinationError"></div>
+	
+	<!-- Modal Dialog (入力内容確認) -->
+	<div th:insert="fragments/dialog_input_destination_confirm::dialogInputDestinationConfirm"></div>
+
+</main>
+
+<script>
+// dialog_input_destination_error.htmlのエラーメッセージを表示するdivのクラスを定義
+const errorSelector = {
+	'姓': '.familyNameError',
+	'名': '.firstNameError',
+	'電話番号': '.telNumberError',
+	'住所': '.addressError',
+};
+$(() => {
+	$('#resetButton').on('click', () => {
+		$('table').find("input").val("");
+	});
+	
+	$('button#confirm').on('click', () => {
+		// 入力チェック処理(validate.js:validate(checkerConfig))を呼び出す
+		// 引数はvalidate.js:checkerからチェックしたい項目の変数の宣言を作成する
+		let errInfo = validate({
+			'familyName': checker.familyName,
+			'firstName': checker.firstName,
+			'address': checker.address,
+			'telNumber': checker.telNumber
+		});
+		if (errInfo.isError) {
+			// エラーがあればエラーダイアログを表示する(volidator.js:createErrorDialog(checkerConfig))
+			createErrorDialog(errInfo.errMsg);
+			$("#inputDestinationError").dialog("open");
+		} else {
+			// エラーがなければ、確認ダイアログを表示する(dialogConfig.js:createConfirmDialog(checkerConfig))
+			createConfirmDialog({
+				'familyName': checker.familyName,
+				'firstName': checker.firstName,
+				'address': checker.address,
+				'telNumber': checker.telNumber
+			});
+			$("#inputDestinationConfirm").dialog("open");
+		}
+	});
+});
+
+//jQuery-UIダイアログの初期設定
+$(function() {
+	$('#inputDestinationError').dialog(dialogConfig.inputDestinationError);
+	$('#inputDestinationConfirm').dialog(dialogConfig.inputDestinationConfirm);
+});
+
+</script>
+
+</body>
+</html>

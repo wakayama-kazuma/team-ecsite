@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<title>宛先入力内容確認|grapes</title>
+</head>
+<body>
+
+<th:block th:fragment="dialogInputDestinationConfirm">
+	<div id="inputDestinationConfirm" title="入力内容確認" class="hidden">
+		<table class="user confirm">
+			<tr>
+				<th>宛先氏名</th>
+				<td>
+					<span class="familyName"></span>
+					<span class="firstName"></span>
+				</td>
+			</tr>
+			<tr>
+				<th>住所</th>
+				<td>
+					<span class="address"></span>
+				</td>
+			</tr>
+			<tr>
+				<th>電話番号</th>
+				<td>
+					<span class="telNumber"></span>
+				</td>
+			</tr>
+		</table>
+	</div>
+</th:block>
+</body>
+</html>

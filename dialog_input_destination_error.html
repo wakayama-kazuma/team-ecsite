@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<title>宛先入力エラー|grapes</title>
+</head>
+<body>
+<th:block th:fragment="dialogInputDestinationError">
+	<div id="inputDestinationError" title="宛先情報入力エラー" class="hidden">
+		<div class="error familyNameError">
+		</div>
+		<div class="error firstNameError hidden">
+		</div>
+		<div class="error telNumberError hidden">
+		</div>
+		<div class="error addressError hidden">
+		</div>
+	</div>
+</th:block>
+</body>
+</html>
